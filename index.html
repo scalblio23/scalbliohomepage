@@ -679,9 +679,6 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
       </div>
     </div>
 
-    <div class="cta-wrap" style="margin-top:36px;">
-      <button class="cta js-open-survey">Get Started →</button>
-    </div>
 
   </main>
 </section>
@@ -928,6 +925,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
       val.classList.toggle('max', isMax);
     }
     slider.addEventListener('input', update);
+    slider.addEventListener('change', () => openModal());
     update();
   })();
 
