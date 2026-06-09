@@ -670,6 +670,10 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
       <div class="slider-range-labels"><span>10</span><span>100+</span></div>
     </div>
 
+    <div class="cta-wrap" style="margin-top:36px;">
+      <button class="cta js-open-survey">Get Started →</button>
+    </div>
+
   </main>
 </section>
 
@@ -939,30 +943,17 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
 
   const steps = [
     {
-      q: "Are you an established business doing over $10k per month?",
-      opts: [
-        { label: "Yes", next: 'continue' },
-        { label: "No", next: 'dq' }
-      ]
-    },
-    {
-      q: "Our average client adds $20k–$50k in revenue a month. Do you have capacity for this?",
-      opts: [
-        { label: "Yes", next: 'continue' },
-        { label: "No", next: 'dq' }
-      ]
-    },
-    {
-      q: "Can you invest a minimum of $1,500/month into growth?",
-      opts: [
-        { label: "Yes", next: 'continue' },
-        { label: "No", next: 'dq' }
-      ]
-    },
-    {
       q: "What industry are you in?",
       type: 'text',
       placeholder: "e.g. Mortgage broking, plumbing, real estate"
+    },
+    {
+      q: "Are you able to spend $50 per DAY minimum on your marketing budget per month?",
+      subq: "If NO please do not continue",
+      opts: [
+        { label: "Yes", next: 'continue' },
+        { label: "No", next: 'dq' }
+      ]
     }
   ];
 
@@ -983,10 +974,8 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
       name: contact.name || '',
       email: contact.email || '',
       phone: contact.phone || '',
-      revenue_over_10k: findAns('established business'),
-      has_capacity: findAns('capacity'),
-      can_invest: findAns('invest'),
       industry: findAns('industry'),
+      has_ad_budget: findAns('$50 per day'),
       answers: answers.map(a => `${a.q} — ${a.a}`).join('  |  '),
       variant: HERO_VARIANT,
       page: location.href,
@@ -1016,7 +1005,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
   let contact = { name: '', email: '', phone: '' };
 
   // Total steps = qualifying questions + contact form
-  const TOTAL_STEPS = steps.length + 1;
+  const TOTAL_STEPS = steps.length + 1; // 2 qualifier steps + 1 contact form step
 
   function openModal() {
     idx = 0;
@@ -1073,6 +1062,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
 
     stepContent.innerHTML = `
       <h3>${step.q}</h3>
+      ${step.subq ? `<p style="color:var(--muted);font-size:14px;letter-spacing:-0.3px;margin:-10px 0 16px;">${step.subq}</p>` : ''}
       <div class="opts">
         ${step.opts.map((o, i) => `<button class="opt" data-i="${i}">${o.label}</button>`).join('')}
       </div>
@@ -1096,7 +1086,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     stepMeta.textContent = `Step ${TOTAL_STEPS} of ${TOTAL_STEPS}`;
     progressBar.style.width = '92%';
     stepContent.innerHTML = `
-      <h3>You qualify ✓ — last step to book your call.</h3>
+      <h3>Almost there — enter your details to book your call.</h3>
       <div class="form-fields">
         <div>
           <label for="cName">Full name</label>
@@ -1169,7 +1159,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     stepContent.innerHTML = `
       <div class="dq">
         <h3>Thanks for your honesty.</h3>
-        <p>Based on your answer, we're not the right fit right now — our system is built for established businesses ready to scale paid acquisition. Come back when you're ready and we'll be here.</p>
+        <p>Based on your answer, we're not the right fit right now. Our system requires a minimum daily ad spend to generate consistent leads. Come back when you're ready and we'll be here.</p>
         <button class="cta" id="closeDQ">Close</button>
       </div>
     `;
