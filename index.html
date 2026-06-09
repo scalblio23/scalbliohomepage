@@ -977,12 +977,15 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
       const m = answers.find(a => a.q.toLowerCase().indexOf(kw) !== -1);
       return m ? m.a : '';
     };
+    const sliderEl = document.getElementById('leadSlider');
+    const sliderVal = sliderEl ? (+sliderEl.value === 100 ? '100+' : sliderEl.value) : '';
     const payload = Object.assign({
       name: contact.name || '',
       email: contact.email || '',
       phone: contact.phone || '',
       industry: findAns('industry'),
       has_ad_budget: findAns('$50 per day'),
+      leads_wanted_per_month: sliderVal,
       answers: answers.map(a => `${a.q} — ${a.a}`).join('  |  '),
       variant: HERO_VARIANT,
       page: location.href,
