@@ -457,11 +457,11 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0,0,0,0.25);
-    opacity: 0;
-    transition: opacity .15s ease;
+    background: rgba(0,0,0,0.18);
+    opacity: 1;
+    transition: background .15s ease;
   }
-  .yt-card:hover .yt-play { opacity: 1; }
+  .yt-card:hover .yt-play { background: rgba(0,0,0,0.35); }
   .yt-play svg { width: 52px; height: 52px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4)); }
   .yt-info {
     padding: 14px 16px 18px;
@@ -854,8 +854,44 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     <h2>Find Us On Youtube</h2>
     <div class="yt-sub">Latest from our YouTube channel</div>
   </div>
-  <div class="yt-grid" id="ytGrid">
-    <div class="yt-loading">Loading latest videos…</div>
+  <div class="yt-grid">
+
+    <a class="yt-card" href="https://youtu.be/v1lIYDP7Pv4" target="_blank" rel="noopener noreferrer">
+      <div class="yt-thumb">
+        <img src="https://i.ytimg.com/vi/v1lIYDP7Pv4/hqdefault.jpg" alt="Watch on YouTube" loading="lazy" />
+        <div class="yt-play">
+          <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C0 13.05 0 24 0 24s0 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C68 34.95 68 24 68 24s0-10.95-1.48-16.26z" fill="#ff0000"/>
+            <path d="M45 24 27 14v20" fill="#fff"/>
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <a class="yt-card" href="https://youtu.be/MSGCtnHF0eU" target="_blank" rel="noopener noreferrer">
+      <div class="yt-thumb">
+        <img src="https://i.ytimg.com/vi/MSGCtnHF0eU/hqdefault.jpg" alt="Watch on YouTube" loading="lazy" />
+        <div class="yt-play">
+          <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C0 13.05 0 24 0 24s0 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C68 34.95 68 24 68 24s0-10.95-1.48-16.26z" fill="#ff0000"/>
+            <path d="M45 24 27 14v20" fill="#fff"/>
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <a class="yt-card" href="https://youtu.be/OnHiGmqoVaU" target="_blank" rel="noopener noreferrer">
+      <div class="yt-thumb">
+        <img src="https://i.ytimg.com/vi/OnHiGmqoVaU/hqdefault.jpg" alt="Watch on YouTube" loading="lazy" />
+        <div class="yt-play">
+          <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C0 13.05 0 24 0 24s0 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C68 34.95 68 24 68 24s0-10.95-1.48-16.26z" fill="#ff0000"/>
+            <path d="M45 24 27 14v20" fill="#fff"/>
+          </svg>
+        </div>
+      </div>
+    </a>
+
   </div>
 </section>
 
@@ -1087,56 +1123,6 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // ===== YouTube latest videos =====
-  (function() {
-    const YT_CHANNEL_ID = 'UCB9ukG-DZ8SKM9HJtDeukvw';
-    const grid = document.getElementById('ytGrid');
-    if (!grid) return;
-
-    const feedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${YT_CHANNEL_ID}`;
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`;
-
-    function renderCard(videoId, title, link, pubDate) {
-      const thumb = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-      const date = new Date(pubDate).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
-      return `
-        <a class="yt-card" href="${link}" target="_blank" rel="noopener noreferrer">
-          <div class="yt-thumb">
-            <img src="${thumb}" alt="${title.replace(/"/g,'&quot;')}" loading="lazy" />
-            <div class="yt-play">
-              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
-                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C0 13.05 0 24 0 24s0 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C68 34.95 68 24 68 24s0-10.95-1.48-16.26z" fill="#ff0000"/>
-                <path d="M45 24 27 14v20" fill="#fff"/>
-              </svg>
-            </div>
-          </div>
-          <div class="yt-info">
-            <div class="yt-title">${title}</div>
-            <div class="yt-date">${date}</div>
-          </div>
-        </a>
-      `;
-    }
-
-    fetch(proxyUrl)
-      .then(r => r.json())
-      .then(data => {
-        const xml = new DOMParser().parseFromString(data.contents, 'text/xml');
-        const entries = Array.from(xml.querySelectorAll('entry')).slice(0, 6);
-        if (!entries.length) throw new Error('no entries');
-        grid.innerHTML = entries.map(e => {
-          const videoId = e.querySelector('videoId') ? e.querySelector('videoId').textContent
-            : (e.querySelector('id') ? e.querySelector('id').textContent.split(':').pop() : '');
-          const title = e.querySelector('title') ? e.querySelector('title').textContent : '';
-          const link = e.querySelector('link') ? e.querySelector('link').getAttribute('href') : '#';
-          const pubDate = e.querySelector('published') ? e.querySelector('published').textContent : '';
-          return renderCard(videoId, title, link, pubDate);
-        }).join('');
-      })
-      .catch(() => {
-        grid.innerHTML = `<div class="yt-loading">Videos unavailable right now. <a href="https://www.youtube.com/@henryfortunatow/videos" target="_blank" rel="noopener" style="color:var(--orange)">Watch on YouTube →</a></div>`;
-      });
-  })();
 
   // Lead slider
   (function() {
