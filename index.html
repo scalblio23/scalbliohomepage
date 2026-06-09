@@ -228,21 +228,28 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     max-width: 600px;
     text-align: center;
   }
+  .slider-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 36px 40px 32px;
+    box-shadow: 0 8px 40px rgba(15,17,21,0.07);
+  }
   .lead-slider-label {
-    font-size: clamp(15px, 1.8vw, 18px);
-    font-weight: 600;
+    font-size: clamp(17px, 2vw, 22px);
+    font-weight: 700;
     color: var(--ink);
-    letter-spacing: -0.6px;
-    margin-bottom: 20px;
+    letter-spacing: -0.8px;
+    margin-bottom: 28px;
   }
   .lead-slider-value {
-    font-size: clamp(42px, 6vw, 64px);
+    font-size: clamp(48px, 7vw, 72px);
     font-weight: 800;
     letter-spacing: -3px;
     color: var(--orange);
     text-shadow: 0 0 32px rgba(255,106,19,0.45), 0 0 64px rgba(255,106,19,0.2);
     line-height: 1;
-    margin-bottom: 18px;
+    margin-top: 24px;
     transition: text-shadow .15s ease;
   }
   .lead-slider-value.max {
@@ -661,13 +668,15 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     <div class="sub"><strong>We run your ads and call your leads.</strong> Our clients add an average of $30,000–$50,000 in additional monthly revenue.</div>
 
     <div class="lead-slider-wrap">
-      <div class="lead-slider-label">How many extra leads do you want every month?</div>
-      <div class="lead-slider-value" id="sliderVal">50</div>
-      <div class="slider-track">
-        <div class="slider-fill" id="sliderFill" style="width:44.4%"></div>
-        <input type="range" class="lead-slider" id="leadSlider" min="10" max="100" value="50" step="1" aria-label="Number of leads per month">
+      <div class="slider-card">
+        <div class="lead-slider-label">How many extra leads do you want every month?</div>
+        <div class="slider-track">
+          <div class="slider-fill" id="sliderFill" style="width:44.4%"></div>
+          <input type="range" class="lead-slider" id="leadSlider" min="10" max="100" value="50" step="1" aria-label="Number of leads per month">
+        </div>
+        <div class="slider-range-labels"><span>10</span><span>100+</span></div>
+        <div class="lead-slider-value" id="sliderVal">50</div>
       </div>
-      <div class="slider-range-labels"><span>10</span><span>100+</span></div>
     </div>
 
     <div class="cta-wrap" style="margin-top:36px;">
