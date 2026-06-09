@@ -1,4 +1,11 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "routes": [
+    {
+      "has": [{ "type": "host", "value": "go.scalbl.io" }],
+      "src": "/(.*)",
+      "dest": "/go"
+    }
+  ]
 }
