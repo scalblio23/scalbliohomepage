@@ -58,6 +58,8 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
      No widget.js needed — simpler and more reliable than the inline widget approach. -->
 
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
   :root {
     --orange: #ff6a13;
     --orange-hover: #e85a08;
@@ -105,9 +107,10 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
   }
   header.nav .nav-contact:hover { color: var(--orange); }
   header.nav .brand {
-    font-size: 26px;
-    font-weight: 800;
-    letter-spacing: -2px;
+    font-family: 'Share Tech Mono', 'OCR A Extended', 'Courier New', monospace;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 1px;
     color: #fff;
     text-decoration: none;
     position: absolute;
@@ -859,10 +862,17 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     .modal { padding: 26px 20px 22px; }
     h1 { letter-spacing: -1.5px; }
     header.nav .nav-contact { font-size: 12px; }
+    .wrap { padding-top: 60px; }
+    .hero::before {
+      background-size: 40px 40px;
+      -webkit-mask-image: radial-gradient(ellipse 90% 55% at 50% 35%, #000 0%, #000 30%, rgba(0,0,0,0.4) 60%, transparent 85%);
+      mask-image: radial-gradient(ellipse 90% 55% at 50% 35%, #000 0%, #000 30%, rgba(0,0,0,0.4) 60%, transparent 85%);
+    }
   }
   @media (max-width: 420px) {
     header.nav { padding: 14px 12px; }
     header.nav .nav-contact { font-size: 11px; letter-spacing: -0.2px; }
+    .wrap { padding-top: 40px; }
   }
 </style>
 </head>
