@@ -345,6 +345,72 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     box-shadow: 0 22px 60px rgba(15,17,21,0.12);
   }
 
+  /* ===== Logo ticker ===== */
+  .logo-ticker {
+    background: #fff;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 28px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .logo-ticker::before,
+  .logo-ticker::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 140px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .logo-ticker::before {
+    left: 0;
+    background: linear-gradient(to right, #ffffff 0%, transparent 100%);
+  }
+  .logo-ticker::after {
+    right: 0;
+    background: linear-gradient(to left, #ffffff 0%, transparent 100%);
+  }
+  .ticker-track {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    width: max-content;
+    animation: ticker-scroll 30s linear infinite;
+  }
+  .ticker-track:hover { animation-play-state: paused; }
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .ticker-logo {
+    display: flex;
+    align-items: center;
+    opacity: 0.65;
+    transition: opacity .2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .ticker-logo:hover { opacity: 1; }
+  .ticker-logo img {
+    height: 32px;
+    width: auto;
+    max-width: 140px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    transition: filter .2s ease;
+  }
+  .ticker-logo:hover img { filter: grayscale(0%); }
+  .ticker-logo-text {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track { animation: none; }
+  }
+
   /* ===== Stats bar ===== */
   .stats {
     border-top: 1px solid var(--line);
@@ -839,6 +905,29 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     </div>
 
   </main>
+</section>
+
+<section class="logo-ticker" aria-label="Clients we've worked with">
+  <div class="ticker-track">
+    <!-- Set 1 -->
+    <div class="ticker-logo"><span class="ticker-logo-text">CitrineX</span></div>
+    <div class="ticker-logo"><span class="ticker-logo-text">Redwood Financial Planning</span></div>
+    <div class="ticker-logo"><span class="ticker-logo-text">Shore Financial</span></div>
+    <div class="ticker-logo"><span class="ticker-logo-text">Haute Kitchens Australia</span></div>
+    <div class="ticker-logo"><span class="ticker-logo-text">3Wilco</span></div>
+    <div class="ticker-logo"><span class="ticker-logo-text">Strategic Investment Network</span></div>
+    <div class="ticker-logo"><span class="ticker-logo-text">Khan Legal</span></div>
+    <div class="ticker-logo"><span class="ticker-logo-text">Cred Zone</span></div>
+    <!-- Set 2 (duplicate for seamless loop) -->
+    <div class="ticker-logo"><span class="ticker-logo-text">CitrineX</span></div>
+    <div class="ticker-logo"><span class="ticker-logo-text">Redwood Financial Planning</span></div>
+    <div class="ticker-logo"><span class="ticker-logo-text">Shore Financial</span></div>
+    <div class="ticker-logo"><span class="ticker-logo-text">Haute Kitchens Australia</span></div>
+    <div class="ticker-logo"><span class="ticker-logo-text">3Wilco</span></div>
+    <div class="ticker-logo"><span class="ticker-logo-text">Strategic Investment Network</span></div>
+    <div class="ticker-logo"><span class="ticker-logo-text">Khan Legal</span></div>
+    <div class="ticker-logo"><span class="ticker-logo-text">Cred Zone</span></div>
+  </div>
 </section>
 
 <section class="stats">
