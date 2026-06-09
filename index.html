@@ -222,6 +222,90 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     letter-spacing: -0.3px;
   }
 
+  /* ===== Lead Slider ===== */
+  .lead-slider-wrap {
+    margin: 40px auto 0;
+    max-width: 600px;
+    text-align: center;
+  }
+  .lead-slider-label {
+    font-size: clamp(15px, 1.8vw, 18px);
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.6px;
+    margin-bottom: 20px;
+  }
+  .lead-slider-value {
+    font-size: clamp(42px, 6vw, 64px);
+    font-weight: 800;
+    letter-spacing: -3px;
+    color: var(--orange);
+    text-shadow: 0 0 32px rgba(255,106,19,0.45), 0 0 64px rgba(255,106,19,0.2);
+    line-height: 1;
+    margin-bottom: 18px;
+    transition: text-shadow .15s ease;
+  }
+  .lead-slider-value.max {
+    text-shadow: 0 0 40px rgba(255,106,19,0.65), 0 0 80px rgba(255,106,19,0.35);
+  }
+  .slider-track {
+    position: relative;
+    height: 6px;
+    background: var(--line);
+    border-radius: 999px;
+    margin: 0 8px;
+  }
+  .slider-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    background: var(--orange);
+    border-radius: 999px;
+    box-shadow: 0 0 12px rgba(255,106,19,0.6), 0 0 28px rgba(255,106,19,0.3);
+    transition: width .05s ease, box-shadow .15s ease;
+    pointer-events: none;
+  }
+  input[type=range].lead-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    cursor: pointer;
+    margin: 0;
+  }
+  input[type=range].lead-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--orange);
+    box-shadow: 0 0 0 4px rgba(255,106,19,0.15), 0 0 16px rgba(255,106,19,0.5);
+    transition: box-shadow .15s ease, transform .1s ease;
+    margin-top: -10px;
+  }
+  input[type=range].lead-slider::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 0 6px rgba(255,106,19,0.2), 0 0 24px rgba(255,106,19,0.7);
+    transform: scale(1.1);
+  }
+  input[type=range].lead-slider::-moz-range-thumb {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--orange);
+    box-shadow: 0 0 0 4px rgba(255,106,19,0.15), 0 0 16px rgba(255,106,19,0.5);
+  }
+  .slider-range-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: -0.3px;
+    padding: 0 4px;
+  }
+
   /* ===== Hero background: white with a soft grey grid that fades at the edges ===== */
   .hero {
     position: relative;
@@ -576,6 +660,16 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
 
     <div class="sub"><strong>We run your ads and call your leads.</strong> Our clients add an average of $30,000–$50,000 in additional monthly revenue.</div>
 
+    <div class="lead-slider-wrap">
+      <div class="lead-slider-label">How many extra leads do you want every month?</div>
+      <div class="lead-slider-value" id="sliderVal">50</div>
+      <div class="slider-track">
+        <div class="slider-fill" id="sliderFill" style="width:44.4%"></div>
+        <input type="range" class="lead-slider" id="leadSlider" min="10" max="100" value="50" step="1" aria-label="Number of leads per month">
+      </div>
+      <div class="slider-range-labels"><span>10</span><span>100+</span></div>
+    </div>
+
   </main>
 </section>
 
@@ -806,6 +900,23 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Lead slider
+  (function() {
+    const slider = document.getElementById('leadSlider');
+    const val = document.getElementById('sliderVal');
+    const fill = document.getElementById('sliderFill');
+    function update() {
+      const min = +slider.min, max = +slider.max, v = +slider.value;
+      const pct = (v - min) / (max - min) * 100;
+      fill.style.width = pct + '%';
+      const isMax = v === max;
+      val.textContent = isMax ? '100+' : v;
+      val.classList.toggle('max', isMax);
+    }
+    slider.addEventListener('input', update);
+    update();
+  })();
 
   // Single hero — kept as a constant so existing analytics + Sheet payloads still get a value.
   const HERO_VARIANT = 'default';
