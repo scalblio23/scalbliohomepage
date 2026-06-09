@@ -107,17 +107,16 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
   }
   header.nav .nav-contact:hover { color: var(--orange); }
   header.nav .brand {
-    font-family: 'Share Tech Mono', 'OCR A Extended', 'Courier New', monospace;
-    font-size: 22px;
-    font-weight: 400;
-    letter-spacing: 1px;
-    color: #fff;
     text-decoration: none;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.25)) drop-shadow(0 0 14px rgba(255,255,255,0.1));
+    transition: filter .2s ease;
   }
-  header.nav .brand .dot { color: var(--orange); }
+  header.nav .brand:hover {
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.4)) drop-shadow(0 0 24px rgba(255,255,255,0.2));
+  }
 
   /* ===== Hero ===== */
   .wrap {
@@ -880,7 +879,28 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
 
 <header class="nav">
   <a href="tel:+61403214320" class="nav-contact">+61 403 214 320</a>
-  <a href="/" class="brand">Scalbl<span class="dot">.</span>io</a>
+  <a href="/" class="brand" aria-label="Scalbl.io home">
+    <svg viewBox="0 0 130 96" xmlns="http://www.w3.org/2000/svg" style="height:42px;width:auto;display:block;">
+      <!-- Black background -->
+      <rect width="130" height="96" rx="8" fill="#000"/>
+      <!-- Dots (small horizontal dashes at baseline) -->
+      <rect x="4"  y="82" width="7" height="2.5" rx="1" fill="white"/>
+      <rect x="14" y="82" width="7" height="2.5" rx="1" fill="white"/>
+      <rect x="24" y="82" width="7" height="2.5" rx="1" fill="white"/>
+      <rect x="34" y="82" width="7" height="2.5" rx="1" fill="white"/>
+      <rect x="44" y="82" width="7" height="2.5" rx="1" fill="white"/>
+      <rect x="54" y="82" width="7" height="2.5" rx="1" fill="white"/>
+      <rect x="64" y="82" width="7" height="2.5" rx="1" fill="white"/>
+      <!-- Triangle (inflection point marker) -->
+      <polygon points="57,92 63,83 69,92" fill="white"/>
+      <!-- Growing bars (exponential lift-off) -->
+      <rect x="74"  y="76" width="7" height="8"  rx="1" fill="white"/>
+      <rect x="84"  y="68" width="7" height="16" rx="1" fill="white"/>
+      <rect x="94"  y="57" width="7" height="27" rx="1" fill="white"/>
+      <rect x="104" y="40" width="7" height="44" rx="1" fill="white"/>
+      <rect x="114" y="17" width="7" height="67" rx="1" fill="white"/>
+    </svg>
+  </a>
   <a href="mailto:start@scalbl.io" class="nav-contact">start@scalbl.io</a>
 </header>
 
