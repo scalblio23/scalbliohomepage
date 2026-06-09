@@ -92,14 +92,27 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     background: #fff;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    position: relative;
   }
+  header.nav .nav-contact {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.4px;
+    color: var(--ink);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  header.nav .nav-contact:hover { color: var(--orange); }
   header.nav .brand {
     font-size: 26px;
     font-weight: 800;
     letter-spacing: -2px;
     color: var(--ink);
     text-decoration: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
   }
   header.nav .brand .dot { color: var(--orange); }
 
@@ -153,12 +166,12 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
   .trust-meta .trust-star { color: #00b67a; }
 
   h1 {
-    font-size: clamp(28px, 4.4vw, 50px);
+    font-size: clamp(38px, 6.5vw, 76px);
     font-weight: 800;
-    line-height: 1.04;
+    line-height: 1.0;
     margin: 0 auto 18px;
     max-width: 880px;
-    letter-spacing: -2.5px;
+    letter-spacing: -3px;
   }
   h1 .accent { color: var(--orange); }
 
@@ -539,31 +552,29 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     .proof-grid { grid-template-columns: 1fr; }
     .modal { padding: 26px 20px 22px; }
     h1 { letter-spacing: -1.5px; }
+    header.nav .nav-contact { font-size: 12px; }
+  }
+  @media (max-width: 420px) {
+    header.nav { padding: 14px 12px; }
+    header.nav .nav-contact { font-size: 11px; letter-spacing: -0.2px; }
   }
 </style>
 </head>
 <body>
 
 <header class="nav">
+  <a href="tel:+61403214320" class="nav-contact">+61 403 214 320</a>
   <a href="/" class="brand">Scalbl<span class="dot">.</span>io</a>
+  <a href="mailto:start@scalbl.io" class="nav-contact">start@scalbl.io</a>
 </header>
 
 <section class="hero">
   <main class="wrap">
-    <div class="eyebrow ui-tight">For brokers doing $10k+/month</div>
-
-    <div class="trust-badge" aria-label="Rated 4.3 out of 5 on Trustpilot">
-      <span class="trust-stars">
-        <span class="ts"></span><span class="ts"></span><span class="ts"></span><span class="ts"></span><span class="ts p43"></span>
-      </span>
-      <span class="trust-meta"><strong>4.3</strong> · <span class="trust-name"><span class="trust-star">&#9733;</span> Trustpilot</span></span>
-    </div>
-
     <h1>
-      We Guaranteed
-      <span class="accent">20-30 Exclusive Phone Verified Bookings</span>
-      Every Month OR DONT PAY
+      We Run Your Ads &amp;<br>Call Your Leads
     </h1>
+
+    <div class="sub">Our clients add an average of $30,000–$50,000 in additional monthly revenue.</div>
 
     <div class="cta-wrap">
       <button class="cta js-open-survey" id="openSurvey">Book A Demo</button>
