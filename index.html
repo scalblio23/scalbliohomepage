@@ -1091,36 +1091,46 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
   (function() {
     const YT_CHANNEL_ID = 'UCB9ukG-DZ8SKM9HJtDeukvw';
     const grid = document.getElementById('ytGrid');
-    if (!grid || YT_CHANNEL_ID === 'PASTE_CHANNEL_ID_HERE') return;
+    if (!grid) return;
 
-    const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${YT_CHANNEL_ID}`;
-    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&count=6`;
+    const feedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${YT_CHANNEL_ID}`;
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`;
 
-    fetch(apiUrl)
+    function renderCard(videoId, title, link, pubDate) {
+      const thumb = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+      const date = new Date(pubDate).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
+      return `
+        <a class="yt-card" href="${link}" target="_blank" rel="noopener noreferrer">
+          <div class="yt-thumb">
+            <img src="${thumb}" alt="${title.replace(/"/g,'&quot;')}" loading="lazy" />
+            <div class="yt-play">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C0 13.05 0 24 0 24s0 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C68 34.95 68 24 68 24s0-10.95-1.48-16.26z" fill="#ff0000"/>
+                <path d="M45 24 27 14v20" fill="#fff"/>
+              </svg>
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-title">${title}</div>
+            <div class="yt-date">${date}</div>
+          </div>
+        </a>
+      `;
+    }
+
+    fetch(proxyUrl)
       .then(r => r.json())
       .then(data => {
-        if (!data.items || !data.items.length) throw new Error('no items');
-        grid.innerHTML = data.items.slice(0, 6).map(item => {
-          const videoId = item.link.split('v=')[1] || item.guid.split('v=')[1] || '';
-          const thumb = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-          const date = new Date(item.pubDate).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
-          return `
-            <a class="yt-card" href="${item.link}" target="_blank" rel="noopener noreferrer">
-              <div class="yt-thumb">
-                <img src="${thumb}" alt="${item.title.replace(/"/g,'&quot;')}" loading="lazy" />
-                <div class="yt-play">
-                  <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C0 13.05 0 24 0 24s0 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C68 34.95 68 24 68 24s0-10.95-1.48-16.26z" fill="#ff0000"/>
-                    <path d="M45 24 27 14v20" fill="#fff"/>
-                  </svg>
-                </div>
-              </div>
-              <div class="yt-info">
-                <div class="yt-title">${item.title}</div>
-                <div class="yt-date">${date}</div>
-              </div>
-            </a>
-          `;
+        const xml = new DOMParser().parseFromString(data.contents, 'text/xml');
+        const entries = Array.from(xml.querySelectorAll('entry')).slice(0, 6);
+        if (!entries.length) throw new Error('no entries');
+        grid.innerHTML = entries.map(e => {
+          const videoId = e.querySelector('videoId') ? e.querySelector('videoId').textContent
+            : (e.querySelector('id') ? e.querySelector('id').textContent.split(':').pop() : '');
+          const title = e.querySelector('title') ? e.querySelector('title').textContent : '';
+          const link = e.querySelector('link') ? e.querySelector('link').getAttribute('href') : '#';
+          const pubDate = e.querySelector('published') ? e.querySelector('published').textContent : '';
+          return renderCard(videoId, title, link, pubDate);
         }).join('');
       })
       .catch(() => {
