@@ -344,6 +344,52 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     box-shadow: 0 22px 60px rgba(15,17,21,0.12);
   }
 
+  /* ===== Stats bar ===== */
+  .stats {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: #fff;
+    padding: 48px 24px;
+  }
+  .stats-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+  .stat-item {
+    text-align: center;
+    padding: 0 24px;
+    position: relative;
+  }
+  .stat-item + .stat-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 10%; bottom: 10%;
+    width: 1px;
+    background: var(--line);
+  }
+  .stat-num {
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 800;
+    letter-spacing: -3px;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .stat-num .accent { color: var(--orange); }
+  .stat-label {
+    font-size: clamp(13px, 1.4vw, 16px);
+    color: var(--muted);
+    letter-spacing: -0.4px;
+    margin-top: 8px;
+    font-weight: 500;
+  }
+  @media (max-width: 560px) {
+    .stats-grid { grid-template-columns: 1fr; gap: 32px; }
+    .stat-item + .stat-item::before { display: none; }
+  }
+
   /* ===== Social proof (Trustpilot style) ===== */
   .proof {
     margin-top: 64px;
@@ -681,6 +727,23 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
 
 
   </main>
+</section>
+
+<section class="stats">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-num">800<span class="accent">+</span></div>
+      <div class="stat-label">Clients Served</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">$7<span class="accent">m+</span></div>
+      <div class="stat-label">Spent on Meta Ads</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">8</div>
+      <div class="stat-label">Years in Business</div>
+    </div>
+  </div>
 </section>
 
 <section class="proof">
