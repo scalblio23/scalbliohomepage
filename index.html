@@ -390,65 +390,6 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     .stat-item + .stat-item::before { display: none; }
   }
 
-  /* ===== Photo + note section ===== */
-  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap');
-
-  .photo-note-section {
-    padding: 64px 24px;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    overflow: visible;
-  }
-  .photo-note-inner {
-    position: relative;
-    max-width: 860px;
-    width: 100%;
-  }
-  .photo-note-img {
-    width: 100%;
-    border-radius: 16px;
-    display: block;
-    box-shadow: 0 24px 64px rgba(15,17,21,0.13);
-  }
-  .handwritten-note {
-    position: absolute;
-    right: -80px;
-    top: 50%;
-    transform: translateY(-50%) rotate(3deg);
-    background: #fffbe6;
-    border: 1px solid #f0e68c;
-    border-radius: 4px;
-    padding: 22px 26px;
-    width: 220px;
-    box-shadow: 4px 6px 20px rgba(0,0,0,0.13), 0 1px 0 #e8d84a inset;
-    font-family: 'Caveat', cursive;
-    font-size: 22px;
-    line-height: 1.45;
-    color: #1a1a1a;
-    z-index: 2;
-  }
-  .handwritten-note .note-tired {
-    font-size: 26px;
-    font-weight: 700;
-    text-decoration: underline;
-    text-decoration-style: wavy;
-    text-underline-offset: 3px;
-  }
-  @media (max-width: 900px) {
-    .handwritten-note {
-      position: relative;
-      right: auto; top: auto;
-      transform: rotate(2deg);
-      margin: 24px auto 0;
-      width: 80%;
-      max-width: 320px;
-    }
-    .photo-note-section { flex-direction: column; }
-  }
-
   /* ===== Social proof (Trustpilot style) ===== */
   .proof {
     margin-top: 0;
@@ -805,15 +746,6 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
   </div>
 </section>
 
-<section class="photo-note-section">
-  <div class="photo-note-inner">
-    <img class="photo-note-img" src="https://i.imgur.com/4czZ0YO.jpg" alt="Scalbl team" />
-    <div class="handwritten-note">
-      Dear Business Owner,<br><br>
-      If you are <span class="note-tired">TIRED</span> of slow growth…
-    </div>
-  </div>
-</section>
 
 <section class="proof">
   <div class="proof-head">
