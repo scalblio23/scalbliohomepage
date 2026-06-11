@@ -1322,6 +1322,13 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
         body: JSON.stringify(payload),
         keepalive: true
       }).catch(() => {});
+      // Parallel webhook — fires independently, does not affect Sheets submission.
+      fetch('https://hook.eu1.make.com/y5r7dhkjinli7mv5swu6e853uixngihs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true
+      }).catch(() => {});
     } catch (e) {}
   }
 
