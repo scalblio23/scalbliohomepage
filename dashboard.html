@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scalbl Dashboard</title>
+<link href="https://fonts.cdnfonts.com/css/ocr-a-extended" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #000000;
+    font-family: "OCR A Extended", "OCR-A", "OCR A", monospace;
+    color: #e5e5e5;
+  }
+  .layout { display: flex; height: 100vh; }
+  .sidebar {
+    width: 230px;
+    flex-shrink: 0;
+    background: #0a0a0a;
+    border-right: 1px solid #1e1e1e;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 12px;
+  }
+  .sidebar-brand {
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    padding: 8px 12px 20px 12px;
+    letter-spacing: 0.3px;
+  }
+  .nav-item {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #9a9a9a;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-item:hover { background: #141414; color: #ffffff; }
+  .nav-item.active { background: #1a1a1a; color: #ffffff; }
+  .main { flex: 1; overflow-y: auto; background: #000000; }
+  .page { padding: 28px 32px; }
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .page-title {
+    font-size: 18px;
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: 0.5px;
+  }
+  .header-actions { display: flex; gap: 10px; }
+  .btn {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn:hover { background: #242424; }
+  .btn.subtle { color: #999999; }
+  .btn.subtle:hover { color: #ffffff; }
+  table.client-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .client-table th {
+    text-align: left;
+    color: #777777;
+    font-weight: normal;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    border-bottom: 1px solid #1e1e1e;
+  }
+  .client-table td {
+    padding: 12px 14px;
+    color: #d5d5d5;
+    border-bottom: 1px solid #141414;
+  }
+  .client-table tbody tr:hover { background: #0d0d0d; }
+  .add-row td { padding: 8px 14px; border-bottom: 1px solid #1e1e1e; }
+  .add-row input, .status-form input[type="text"] {
+    width: 100%;
+    background: #0d0d0d;
+    border: 1px solid #222222;
+    border-radius: 4px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 13px;
+    padding: 8px 10px;
+    outline: none;
+  }
+  .add-row input:focus, .status-form input[type="text"]:focus { border-color: #444444; }
+  .add-row input[type="date"] { color-scheme: dark; }
+  .add-row { display: none; }
+  .add-row.open { display: table-row; }
+  .empty-state { color: #555555; font-size: 12px; letter-spacing: 1px; padding: 30px 14px; }
+  select.status-select {
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1px solid;
+    border-radius: 20px;
+    padding: 5px 12px;
+    cursor: pointer;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  select.status-select option { background: #111111; color: #e5e5e5; }
+  .status-form {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    background: #0a0a0a;
+    border: 1px solid #1e1e1e;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+  }
+  .status-form.open { display: flex; }
+  .status-form input[type="text"] { width: 200px; }
+  .status-form input[type="color"] {
+    width: 38px; height: 34px;
+    background: #0d0d0d;
+    border: 1px solid #222222;
+    border-radius: 4px;
+    padding: 2px;
+    cursor: pointer;
+  }
+  .status-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+  .status-chip {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1px solid;
+    border-radius: 20px;
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .status-chip span { cursor: pointer; opacity: 0.6; }
+  .status-chip span:hover { opacity: 1; }
+  .row-delete {
+    color: #444444;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+  }
+  .row-delete:hover { color: #f87171; }
+  .save-indicator {
+    font-size: 10px;
+    color: #444444;
+    letter-spacing: 1px;
+    margin-top: 14px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">Scalbl</div>
+    <nav>
+      <div class="nav-item active" data-page="clients">Client List</div>
+    </nav>
+  </aside>
+  <main class="main" id="main">
+    <div class="page" id="page-clients">
+      <div class="page-header">
+        <h1 class="page-title">Client List</h1>
+        <div class="header-actions">
+          <button class="btn subtle" id="add-status-btn">+ Add Status</button>
+          <button class="btn" id="add-client-btn">+ Add Client</button>
+        </div>
+      </div>
+
+      <div class="status-form" id="status-form">
+        <input type="text" id="status-name" placeholder="Status name">
+        <input type="color" id="status-color" value="#a855f7">
+        <button class="btn" id="status-save">Save Status</button>
+        <div class="status-chips" id="status-chips"></div>
+      </div>
+
+      <table class="client-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Date</th>
+            <th>Select</th>
+            <th style="width:30px"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="add-row" id="add-row">
+            <td><input id="in-name" placeholder="Name"></td>
+            <td><input id="in-email" placeholder="Email"></td>
+            <td><input id="in-phone" placeholder="Phone Number"></td>
+            <td><input id="in-date" type="date"></td>
+            <td><select id="in-status" class="status-select"></select></td>
+            <td></td>
+          </tr>
+        </tbody>
+        <tbody id="client-rows"></tbody>
+      </table>
+      <div class="save-indicator" id="save-indicator"></div>
+    </div>
+  </main>
+</div>
+
+<script>
+  const STORAGE_KEY = 'scalbl-dashboard-v1';
+
+  let state = {
+    statuses: [
+      { name: 'Pending', color: '#f5b73d' },
+      { name: 'Closed',  color: '#4ade80' },
+      { name: 'List',    color: '#60a5fa' }
+    ],
+    clients: []
+  };
+
+  let storageAvailable = !!(window.storage && window.storage.get);
+
+  async function loadState() {
+    if (!storageAvailable) return;
+    try {
+      const result = await window.storage.get(STORAGE_KEY);
+      if (result && result.value) {
+        const saved = JSON.parse(result.value);
+        if (saved.statuses && saved.clients) state = saved;
+      }
+    } catch (e) { /* no saved data yet */ }
+  }
+
+  async function saveState() {
+    if (!storageAvailable) {
+      setIndicator('Not persisted in this view');
+      return;
+    }
+    try {
+      await window.storage.set(STORAGE_KEY, JSON.stringify(state));
+      setIndicator('Saved');
+    } catch (e) {
+      setIndicator('Save failed');
+    }
+  }
+
+  function setIndicator(text) {
+    document.getElementById('save-indicator').textContent = text;
+  }
+
+  // ---- helpers ----
+  function hexToRgba(hex, alpha) {
+    const v = hex.replace('#','');
+    const r = parseInt(v.substring(0,2),16);
+    const g = parseInt(v.substring(2,4),16);
+    const b = parseInt(v.substring(4,6),16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+  }
+
+  function styleStatusSelect(sel, statusName) {
+    const st = state.statuses.find(s => s.name === statusName) || state.statuses[0];
+    if (!st) return;
+    sel.style.color = st.color;
+    sel.style.background = hexToRgba(st.color, 0.12);
+    sel.style.borderColor = hexToRgba(st.color, 0.4);
+  }
+
+  function fillStatusOptions(sel, selected) {
+    sel.innerHTML = '';
+    state.statuses.forEach(s => {
+      const o = document.createElement('option');
+      o.value = s.name;
+      o.textContent = s.name;
+      if (s.name === selected) o.selected = true;
+      sel.appendChild(o);
+    });
+    styleStatusSelect(sel, sel.value);
+  }
+
+  function todayISO() {
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+
+  function formatAU(iso) {
+    if (!iso) return '';
+    const parts = iso.split('-');
+    if (parts.length !== 3) return iso;
+    return parts[2] + '/' + parts[1] + '/' + parts[0];
+  }
+
+  // ---- render ----
+  const rowsBody = document.getElementById('client-rows');
+
+  function render() {
+    rowsBody.innerHTML = '';
+    if (state.clients.length === 0) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = '<td class="empty-state" colspan="6">No clients yet</td>';
+      rowsBody.appendChild(tr);
+    } else {
+      state.clients.forEach((c, idx) => {
+        const tr = document.createElement('tr');
+        [c.name, c.email, c.phone, formatAU(c.date)].forEach(v => {
+          const td = document.createElement('td');
+          td.textContent = v;
+          tr.appendChild(td);
+        });
+        const tdStatus = document.createElement('td');
+        const sel = document.createElement('select');
+        sel.className = 'status-select';
+        fillStatusOptions(sel, c.status);
+        sel.addEventListener('change', () => {
+          state.clients[idx].status = sel.value;
+          styleStatusSelect(sel, sel.value);
+          saveState();
+        });
+        tdStatus.appendChild(sel);
+        tr.appendChild(tdStatus);
+
+        const tdDel = document.createElement('td');
+        tdDel.className = 'row-delete';
+        tdDel.textContent = 'x';
+        tdDel.title = 'Delete row';
+        tdDel.addEventListener('click', () => {
+          state.clients.splice(idx, 1);
+          saveState();
+          render();
+        });
+        tr.appendChild(tdDel);
+
+        rowsBody.appendChild(tr);
+      });
+    }
+    renderStatusChips();
+    fillStatusOptions(inStatus, inStatus.value || (state.statuses[0] && state.statuses[0].name));
+  }
+
+  function renderStatusChips() {
+    const wrap = document.getElementById('status-chips');
+    wrap.innerHTML = '';
+    state.statuses.forEach((s, idx) => {
+      const chip = document.createElement('div');
+      chip.className = 'status-chip';
+      chip.style.color = s.color;
+      chip.style.background = hexToRgba(s.color, 0.12);
+      chip.style.borderColor = hexToRgba(s.color, 0.4);
+      chip.textContent = s.name;
+      const del = document.createElement('span');
+      del.textContent = 'x';
+      del.title = 'Remove status';
+      del.addEventListener('click', () => {
+        const usedBy = state.clients.filter(c => c.status === s.name).length;
+        if (usedBy > 0) {
+          const ok = confirm('Status "' + s.name + '" is used by ' + usedBy + ' client(s). Delete it anyway? Those clients will be moved to the first remaining status.');
+          if (!ok) return;
+        }
+        state.statuses.splice(idx, 1);
+        const fallback = state.statuses[0] ? state.statuses[0].name : '';
+        state.clients.forEach(c => {
+          if (c.status === s.name) c.status = fallback;
+        });
+        saveState();
+        render();
+      });
+      chip.appendChild(del);
+      wrap.appendChild(chip);
+    });
+  }
+
+  // ---- add client ----
+  const addBtn = document.getElementById('add-client-btn');
+  const addRow = document.getElementById('add-row');
+  const inName = document.getElementById('in-name');
+  const inEmail = document.getElementById('in-email');
+  const inPhone = document.getElementById('in-phone');
+  const inDate = document.getElementById('in-date');
+  const inStatus = document.getElementById('in-status');
+
+  inStatus.addEventListener('change', () => styleStatusSelect(inStatus, inStatus.value));
+
+  addBtn.addEventListener('click', () => {
+    const opening = !addRow.classList.contains('open');
+    addRow.classList.toggle('open');
+    addBtn.textContent = opening ? 'Save' : '+ Add Client';
+    if (opening) {
+      inDate.value = todayISO();
+      inName.focus();
+    } else {
+      saveClient();
+    }
+  });
+
+  [inName, inEmail, inPhone].forEach(inp => inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      saveClient();
+      addRow.classList.remove('open');
+      addBtn.textContent = '+ Add Client';
+    }
+  }));
+
+  function saveClient() {
+    const name = inName.value.trim();
+    const email = inEmail.value.trim();
+    const phone = inPhone.value.trim();
+    if (!name && !email && !phone) return;
+    state.clients.push({
+      name, email, phone,
+      date: inDate.value,
+      status: inStatus.value || (state.statuses[0] && state.statuses[0].name) || ''
+    });
+    inName.value = inEmail.value = inPhone.value = '';
+    saveState();
+    render();
+  }
+
+  // ---- add status ----
+  const statusForm = document.getElementById('status-form');
+  const statusName = document.getElementById('status-name');
+  const statusColor = document.getElementById('status-color');
+
+  document.getElementById('add-status-btn').addEventListener('click', () => {
+    statusForm.classList.toggle('open');
+    if (statusForm.classList.contains('open')) statusName.focus();
+  });
+
+  function saveStatus() {
+    const name = statusName.value.trim();
+    if (!name) return;
+    if (state.statuses.some(s => s.name.toLowerCase() === name.toLowerCase())) {
+      alert('A status with that name already exists.');
+      return;
+    }
+    state.statuses.push({ name, color: statusColor.value });
+    statusName.value = '';
+    saveState();
+    render();
+  }
+
+  document.getElementById('status-save').addEventListener('click', saveStatus);
+  statusName.addEventListener('keydown', e => { if (e.key === 'Enter') saveStatus(); });
+
+  // ---- init ----
+  (async () => {
+    await loadState();
+    render();
+    if (!storageAvailable) setIndicator('Not persisted in this view');
+  })();
+</script>
+</body>
+</html>
